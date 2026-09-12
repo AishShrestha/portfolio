@@ -27,6 +27,7 @@ jobs:
       - run: npm run build:pages
         env:
           NEXT_PUBLIC_COPILOT_API: ${{ vars.NEXT_PUBLIC_COPILOT_API }}
+          EXPORT_BASE_PATH: /portfolio
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
