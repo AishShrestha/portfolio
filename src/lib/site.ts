@@ -25,7 +25,7 @@ export const siteConfig = {
   title: 'Backend Engineer · Agentic AI Developer',
   description:
     'Backend engineer building agentic AI systems — hand-rolled agent loops, RAG pipelines, and production APIs. Currently at Ekbana, Kathmandu.',
-  url: 'https://ayushshrestha.vercel.app',
+  url: 'https://aishshrestha.github.io/portfolio',
   location: 'Kathmandu, Nepal',
   ogImage: '/og.png',
 };
