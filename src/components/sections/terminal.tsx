@@ -223,7 +223,7 @@ export function TerminalSection() {
   };
 
   return (
-    <section className="noise relative overflow-hidden py-24">
+    <section id="terminal" className="noise relative overflow-hidden py-24">
       <div className="container-px relative z-10">
         <Reveal className="mb-4 flex items-center gap-3">
           <span className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-accent-purple before:block before:h-px before:w-6 before:bg-accent-purple/60">
