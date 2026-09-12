@@ -29,12 +29,23 @@ export async function askCopilot(
   onEvent: (ev: TraceEvent) => void,
   signal?: AbortSignal,
 ): Promise<void> {
-  const res = await fetch(`${COPILOT_API}/copilot/ask`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    signal,
-    body: JSON.stringify({ message, sessionId, history }),
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${COPILOT_API}/copilot/ask`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal,
+      body: JSON.stringify({ message, sessionId, history }),
+    });
+  } catch (err) {
+    if ((err as Error)?.name === 'AbortError') return;
+    onEvent({
+      type: 'error',
+      message: 'Copilot backend is offline right now — it runs on my own infrastructure. Try again later!',
+    });
+    onEvent({ type: 'done' });
+    return;
+  }
 
   if (!res.ok || !res.body) {
     onEvent({ type: 'error', message: `Copilot unreachable (${res.status})` });
