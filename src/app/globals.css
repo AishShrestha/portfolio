@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* === MINIMAL LIGHT THEME — warm linen, muted teal accent === */
+    --bg: 247 246 242;            /* #f7f6f2 warm linen */
+    --bg-50: 242 241 236;         /* #f2f1ec */
+    --bg-100: 238 237 233;       /* #efeee9 */
+    --bg-200: 233 231 226;       /* #e9e7e2 */
+    --bg-300: 226 224 218;       /* #e2e0da border */
+    --ink: 26 26 26;              /* #1a1a1a primary text */
+    --muted: 107 107 107;        /* #6b6b6b secondary text */
+    --surface: 255 255 255;      /* card surfaces (white) */
+    --line: 26 26 26;             /* borders — dark ink at low opacity */
+    --purple: 42 111 111;        /* #2a6f6f muted teal (primary accent) */
+    --blue: 42 111 111;          /* #2a6f6f — kept as alias, components use accent-* */
+    --cyan: 42 111 111;          /* #2a6f6f */
+    --grad1: 42 111 111;         /* teal gradient stops */
+    --grad2: 120 160 140;        /* sage */
+    --grad3: 42 111 111;
+    --cursor-x: 50%;
+    --cursor-y: 50%;
+  }
+
+  * {
+    @apply border-line/10;
+  }
+
+  html {
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-bg text-ink/80 antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  ::selection {
+    background: rgba(42, 111, 111, 0.18);
+    color: #1a1a1a;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f2f1ec;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #d8d6cf;
+    border-radius: 999px;
+    border: 2px solid #f2f1ec;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2a6f6f;
+  }
+}
+
+@layer components {
+  /* Card surface — white paper on linen, hairline border */
+  .glass {
+    @apply border border-line/10 bg-surface/80;
+    background-image: none;
+  }
+
+  .glass-strong {
+    @apply border border-line/10 bg-surface/95;
+  }
+
+  /* Gradient text — restrained teal, single hue shift */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      120deg,
+      rgb(var(--grad1)) 0%,
+      rgb(var(--grad2)) 60%,
+      rgb(var(--grad1)) 100%
+    );
+  }
+
+  .text-gradient-aurora {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      120deg,
+      rgb(var(--purple)),
+      rgb(var(--grad2))
+    );
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+  }
+
+  /* Section container — narrower, editorial */
+  .container-px {
+    @apply mx-auto w-full max-w-3xl px-6 sm:px-8;
+  }
+
+  /* Grain texture — the soul of the minimal design */
+  .noise::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    z-index: 60;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Grid removed — minimal design uses grain, not grids */
+  .bg-grid {
+    display: none;
+  }
+
+  /* Aurora blobs — removed for minimal theme (kept for compat) */
+  .aurora-blob {
+    display: none;
+  }
+
+  /* Buttons */
+  .btn-magnetic {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 text-sm font-medium transition-[transform,box-shadow] duration-300 will-change-transform;
+  }
+
+  .focus-glow:focus-visible {
+    @apply outline-none ring-2 ring-accent-purple/60 ring-offset-2 ring-offset-bg;
+  }
+
+  /* Form input — paper feel */
+  .input-glass {
+    @apply w-full rounded-xl border border-line/10 bg-surface/80 px-4 py-3 text-sm text-ink placeholder:text-ink/30 transition-colors focus:border-accent-purple/50 focus:bg-surface;
+  }
+  .input-glass:focus {
+    @apply outline-none;
+  }
+}
+
+@layer utilities {
+  /* Mouse-follow radial glow (hero) — soft teal */
+  .mouse-glow {
+    background: radial-gradient(
+      600px circle at var(--cursor-x) var(--cursor-y),
+      rgba(42, 111, 111, 0.07),
+      transparent 40%
+    );
+  }
+
+  .perspective {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .custom-cursor-active * {
+      cursor: none;
+    }
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
